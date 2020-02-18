@@ -1,23 +1,29 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import App from './app';
 
-function buy() {
+export default class Product extends Component {
 
-    ReactDOM.render(<App />, document.getElementById('root'));
-}
+    constructor(props) {
+        super(props)
+        this.state = {
+            qty: 0
+        }
+    }
 
-class Product extends Component {
-
+    updateQty() {
+        this.setState({qty: this.state.qty + 1});
+        // Handle passed in function to use component price to update the total
+        this.props.handleTotal(this.props.price);
+    }
+ 
     render() {
         return (
             <div>
-                <h1>Welcome to the Product page</h1>
-                <p>Android - $199</p>
-                <button onClick={buy}>Buy</button>
+                <p>{this.props.name} - ${this.props.price}</p>
+                {/* Added bind so that it binds the current component with its state */}
+                <button onClick={this.updateQty.bind(this)}>Buy</button>
+                <h2>Qty: {this.state.qty} Item(s)</h2>
+                <hr></hr>
             </div>
         );
     }
 }
-
-export default Product;
